@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+    integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+    crossorigin="anonymous"
+/>
+    <title>Register</title>
+</head>
+<body>
+    <div class="join-container">
+        <header class="join-header">
+            <h3>Register</h3><h1><i class="fas fa-comments"></i>ChatWeb</h1>
+        </header>
+        <div>
+            <form  name="register"  action="/register" method="post" class="register" >
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" value="" placeholder="Enter name..." required/>
+                <label id="validate-name" style="margin:0;padding:0;height:4px"></label>
+                <label for="email">email</label>
+                <input id="email" name="email" type="email" value="" placeholder="Enter email..." required/>
+                <label id="validate-email" style="margin:0;padding:0;height:4px"></label>
+                <label for="password">password</label>
+                <input id="password" name="password" type="password" value="" placeholder="Enter password..." required/>
+                <label id="validate" style="margin:0;padding:0;height:4px"></label>
+                <label for="password2">confirm password</label>
+                <input id="password2" name="password2" type="password" value="" required/>
+                <div class="register-btns login-btns"><span><button type="submit" onClick="redirect()" class="btn">Cancel</button> </span> 
+                <button  type="button" value="Submit" class="btn" onclick="validateForm()">Register</button></div> 
+            </form>
+        </div>
+    </div>
+    <script>
+        function redirect(){
+            location.href="/"
+        }
+    function validateForm(){
+        const forms=document.forms.register;
+        const validate= document.getElementById("validate")
+        const pwd1=forms.password.value;
+        const pwd2=forms.password2.value;
+        const  name=forms.name.value;
+        var email=forms.email.value;
+        var emailId=document.getElementById("validate-email")
+        var nameid=document.getElementById("validate-name")
+        var matchEmail=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if(name==='') {
+            nameid.innerHTML=`<p style="color:red;font-size:.8em; font-weight:bold; margin:0; padding:0;">Enter valid name</p>`
+            forms.name.focus();
+        }
+        if(pwd1==='' || pwd1!==pwd2){
+            validate.innerHTML=`<p style="color:red;font-size:.8em; font-weight:bold; margin:0; padding:0;">passwords do not match</p>`
+             }
+        if(!email.match(matchEmail)){
+            emailId.innerHTML=`<p style="color:red;font-size:.8em; font-weight:bold; margin:0; padding:0;">Enter valid Email Address</p>`
+
+        return false;
+     }
+     forms.submit();
+     forms.reset();
+
+    return false;
+    }
+ </script>
+  </body> 
+</html>
