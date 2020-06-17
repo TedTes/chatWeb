@@ -74,13 +74,13 @@ async function getGroupUsers(groupName) {
 }
 
 async function loadMessages(groupName){
-  const Messages=mongoose.model('message',groupMessageSchema)
-  try{
-const res=await Messages.find({groupName},'-_id name text time');
-    if(res) return res;
-}
-catch(err) {console.log(err);}
-}
+    const Messages=mongoose.model('message',groupMessageSchema)
+    try{
+  const res=await Messages.find({groupName},'-_id name text time');
+      if(res) return res;
+  }
+  catch(err) {console.log(err);}
+  }
 
 function getCheckSum(value1,value2){
   let checkSum=0;

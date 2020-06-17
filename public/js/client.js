@@ -14,6 +14,8 @@ var checkSum=0;
   var groupName=location.search.slice(1);
      const socket = io();
      socket.on("userConnected",({checkSum,username})=>{
+    console.log("from userconnected");
+    console.log(checkSum);
       if(username && !groupName){
         loginBtn.innerText="Logout";
         loggedUser.innerText=username;
@@ -25,6 +27,7 @@ var checkSum=0;
         button.addEventListener('click',(e)=>{
           e.preventDefault();
         location.href=`chatBoard.html?${button.innerText}`
+        console.log(location.search.slice(1).username)
               });  })
 
         if (groupName){
@@ -43,7 +46,7 @@ var checkSum=0;
   
   // Message from server
   socket.on('message',(message) => {
-    
+    console.log("how many times");
     displayMessage(message);
    // Scroll down
   chatMessages.scrollTop = chatMessages.scrollHeight;

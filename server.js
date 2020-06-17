@@ -25,6 +25,7 @@ var username;
 var password;
 var userFromOauth=false;
 var user={}
+var connectOnce=false;
 
 const mongoose=getDB();
 
@@ -105,21 +106,20 @@ password=password;
 checkSum=checkSum+acct.charCodeAt(i)
 
 if(await loginUser(user)){
- 
-  res.sendFile(path.join(__dirname+'/public/index.html'))
-
-  io.on('connection',(socket) => {
+res.sendFile(path.join(__dirname+'/public/index.html'))
+if(!connectOnce){
+  io.on('connection', async(socket) => {
     socket.emit("userConnected",{checkSum,username})
-   
-     socket.on('joinGroup',async({checkSum,username,groupName}) => {
+    socket.on('joinGroup', async({checkSum,username,groupName}) => {
       const user={username,groupName}
       // id=checkSum;
-      // const res=await loadMessages(groupName);
-     const n = await joinUser(checkSum,groupName);
+      console.log(user);
+      const n = await joinUser(checkSum,groupName);
+        const res=await loadMessages(groupName);
      socket.join(user.groupName);
+      socket.emit('message',formatMessage(botName, 'Welcome to ChatWeb!')); 
       // Welcome current user
-      socket.emit('message',formatMessage(botName, 'Welcome to ChatWeb!'));
-      socket.emit("loadMessages",(res))
+       socket.emit("loadMessages",(res))
      // Broadcast when a user connects 
       socket.broadcast.to(user.groupName).emit('message',formatMessage(botName, `${user.username} has joined the chat`)
         );
@@ -148,16 +148,24 @@ if(await loginUser(user)){
           'message',
           formatMessage(botName, `${user.username} has left the chat`)
         );
+  
+        // // Send users and room info
+        // io.to(user.groupName).emit('groupUsers', {
+        //   groupName: user.groupName,
+        //   users: getGroupUsers(user.groupName)
+        // });
       }
     });
   });
+  connectOnce=true;
+}
+
 }
 
 else
 res.sendFile(path.join(__dirname,'/public/login.html'))
 });
 app.get('/logout',(req,res)=>{
-  console.log(username)
   console.log("from logout")
   res.sendFile(path.join(__dirname,'/public/login.html'))
 })
