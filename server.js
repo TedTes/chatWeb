@@ -54,7 +54,8 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000/auth/google/callback"
+  // callbackURL: "http://localhost:3000/auth/google/callback"
+  callbackURL:"https://chattappln.herokuapp.com/auth/google/callback"
 },
 function(accessToken, refreshToken, profile, cb) {
   activeAccountUser.findOrCreate({ password: profile.id,name:profile.name.givenName}, function (err, user) {
@@ -65,7 +66,8 @@ function(accessToken, refreshToken, profile, cb) {
 passport.use(new LinkedInStrategy({
   clientID: process.env.LINKEDIN_KEY,
   clientSecret: process.env.LINKEDIN_SECRET,
-  callbackURL: "http://localhost:3000/auth/linkedin/callback",
+  // callbackURL: "http://localhost:3000/auth/linkedin/callback",
+  callbackURL: "https://chattappln.herokuapp.com/auth/linkedin/callback",
   scope: ['r_emailaddress','r_liteprofile'],
  }, function(accessToken, refreshToken, profile, done) {
   // asynchronous verification, for effect...
