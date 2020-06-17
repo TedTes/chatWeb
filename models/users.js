@@ -1,23 +1,9 @@
 const {getDB}=require('./db.js')
+const {userSchema,groupMessageSchema}=require('./schema.js')
 // const mongoose=require('mongoose');
 const users = [];
 const db=getDB();
 const mongoose=db;
-const userSchema=new mongoose.Schema({
-id:String,
-name:String,
-password:String,
-groupName:String,
-email:String,
-status:String
-})
-
-const groupMessageSchema=new mongoose.Schema({
-  groupName:String,
-  name:String,
-  text:String,
-  time:String
-})
 
 //login user
 async function loginUser(user){

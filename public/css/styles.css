@@ -261,8 +261,13 @@ a {
 	flex-direction:column;
 	width:300px;
 	/* border:2px solid black; */
-	margin:210px auto;
+	margin:230px auto;
 	outline:none;
+}
+.social-btns a:hover{
+	background: var(--dark-color-a);
+	color:white;
+	opacity:.3em;
 }
 .social-btns a{
 	text-align:center;

@@ -5,41 +5,31 @@ const userList = document.getElementById('users');
 const buttons=document.querySelectorAll('.tag-buttons button');
 const loginBtn=document.getElementById('login-btn');
 const btn =document.querySelector('btn');
+const loggedUser=document.getElementById("username");
+const chatBoardUser=document.getElementById("chatBoard");
+const activeUser=document.getElementById("activeUser");
+
 var checkSum=0;
 
-// function checkUsername(...username){
-//   console.log("from userkkkk")
-//   console.log(username);
-//     buttons.forEach((button)=>{
-//       button.addEventListener('click',(e)=>{
-//         e.preventDefault();
-//         if(username===[]){
-//           location.href='/login.html';
-//        }
-//         else  location.href=`chatBoard.html?${button.innerText}`
-//             });  })
-// }
-// checkUsername();
-     var groupName;
+  var groupName=location.search.slice(1);
      const socket = io();
      socket.on("userConnected",({checkSum,username})=>{
-      var groupName=location.search.slice(1);
       if(username && !groupName){
         loginBtn.innerText="Logout";
+        loggedUser.innerText=username;
+      
       }
-     
+  
     //  checkUsername(username);
       buttons.forEach((button)=>{
         button.addEventListener('click',(e)=>{
           e.preventDefault();
         location.href=`chatBoard.html?${button.innerText}`
-        console.log("button");
-        console.log(location.search.slice(1).username)
               });  })
 
         if (groupName){
          // Join chatroom
-     socket.emit('joinGroup', { checkSum,username,groupName});
+        socket.emit('joinGroup', { checkSum,username,groupName});
  
  
   // Get room and users
@@ -53,9 +43,10 @@ var checkSum=0;
   
   // Message from server
   socket.on('message',(message) => {
+    
     displayMessage(message);
    // Scroll down
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+  chatMessages.scrollTop = chatMessages.scrollHeight;
   });
   
   // Message submit
@@ -73,10 +64,13 @@ var checkSum=0;
 function displayMessage(message) {
   const div = document.createElement('div');
   div.classList.add('message');
-  div.innerHTML = `<p class="meta">${message.name} <span>${message.time}</span></p>
-  <p class="text">
-    ${message.text}
-  </p>`;
+
+    div.innerHTML = `<p class="meta">${message.name} <span>${message.time}</span></p>
+    <p class="text">
+      ${message.text}
+    </p>`;
+
+
   document.querySelector('.chat-messages').appendChild(div);
 }
 function displayGroupMessages(messages){
@@ -89,6 +83,7 @@ function displayGroupName(groupName) {
 
 // Add users to DOM
 function displayUsers(users) {
+  activeUser.innerText=`${username}`;
   userList.innerHTML = `
     ${users.map(user => `<li class="onlinee"><span ></span>${user["name"]}</li>`).join('')}
   `;
