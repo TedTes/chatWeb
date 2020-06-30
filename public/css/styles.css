@@ -62,11 +62,12 @@ a {
    margin-top:1.7em;
 	padding:1em;
 	display:grid;
-	grid-template-columns:repeat(4,auto);
+	grid-template-columns: repeat(4, auto);
 	grid-gap:.3em;
 	padding-left:0;
 	padding-right:0em;
 	}
+
 .tag-buttons > button{
 		padding: 1em 1.2em;
 		font-size:1em;
@@ -347,12 +348,21 @@ a {
     background:black
 }
 }
-@media (max-width: 700px) {
-	.chat-main {
-		display: block;
-	}
 
-	.chat-sidebar {
-		display: none;
+@media (max-width:560px){
+	.tag-buttons{
+		
+		grid-template-columns:1fr;
+		margin-left:90px;
+	}
+	.container > h2{
+		margin-left:90px;
+	}
+}
+@media (min-width:560px) and (max-width:750px){
+	.tag-buttons{
+		grid-template-columns:repeat(auto-fit,50px);
+		grid-gap:.3em;
+		width:50%;
 	}
 }
