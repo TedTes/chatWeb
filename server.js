@@ -1,4 +1,5 @@
 const path = require('path');
+require('dotenv').config({path:'./config.env'});
 const moment = require('moment');
 const http = require('http');
 const bodyParser=require('body-parser');
@@ -14,6 +15,9 @@ const session=require('express-session');
 const findOrCreate=require('mongoose-findorcreate');
 const {userSchema}=require('./models/schema.js')
 
+
+console.log("from server chat ")
+console.log(process.env);
 
 const app = express();
 const server = http.createServer(app);
