@@ -81,6 +81,8 @@ passport.use(new LinkedInStrategy({
 // ========================================================
  // Immediate calling function to connect to the database
  (function(){
+   console.log("from chat server")
+   console.log(process.env)
   connectToDb();
   })();
 app.post('/login',async(req,res)=>{
