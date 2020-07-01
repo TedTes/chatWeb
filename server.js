@@ -16,8 +16,6 @@ const findOrCreate=require('mongoose-findorcreate');
 const {userSchema}=require('./models/schema.js')
 
 
-console.log("from server chat ")
-console.log(process.env);
 
 const app = express();
 const server = http.createServer(app);
@@ -85,8 +83,6 @@ passport.use(new LinkedInStrategy({
 // ========================================================
  // Immediate calling function to connect to the database
  (function(){
-   console.log("from chat server")
-   console.log(process.env)
   connectToDb();
   })();
 app.post('/login',async(req,res)=>{
