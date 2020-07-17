@@ -70,6 +70,7 @@ async function userLeave(id) {
 async function getGroupUsers(groupName) {
  const User=mongoose.model('user',userSchema);
  const res=await User.find({groupName,status:"online"}, '-_id name');
+
        return res;
 }
 
@@ -87,7 +88,7 @@ function getCheckSum(value1,value2){
   const acct=value1.concat(value2);
   for(var i=0;i<acct.length;i++)
   checkSum=checkSum+acct.charCodeAt(i)
-return checkSum;
+  return checkSum;
 }
 
 module.exports = {

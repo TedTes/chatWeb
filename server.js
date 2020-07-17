@@ -24,7 +24,7 @@ const io = socketio(server);
 
 const botName = 'ChatWeb Bot';
 var username;
-var password;
+var checkSum;
 var userFromOauth=false;
 var user={}
 var connectOnce=false;
@@ -91,7 +91,7 @@ app.post('/login',async(req,res)=>{
   res.redirect('/login')
 })
 app.get('/login',async(req,res)=>{
-  var checkSum=0;
+ checkSum=0;
   user={
     name:username,
     password:password
@@ -108,16 +108,14 @@ password=password;
  const acct=username.concat(password);
   for(var i=0;i<acct.length;i++)
 checkSum=checkSum+acct.charCodeAt(i)
-
 if(await loginUser(user)){
 res.sendFile(path.join(__dirname+'/public/index.html'))
 if(!connectOnce){
   io.on('connection', async(socket) => {
     socket.emit("userConnected",{checkSum,username})
     socket.on('joinGroup', async({checkSum,username,groupName}) => {
+      groupNam=groupName;
       const user={username,groupName}
-      // id=checkSum;
-      console.log(user);
       const n = await joinUser(checkSum,groupName);
         const res=await loadMessages(groupName);
      socket.join(user.groupName);
@@ -127,7 +125,7 @@ if(!connectOnce){
      // Broadcast when a user connects 
       socket.broadcast.to(user.groupName).emit('message',formatMessage(botName, `${user.username} has joined the chat`)
         );
-      // Send users and room info
+      // Send users and group info
       io.to(user.groupName).emit('groupUsers', {
         groupName: user.groupName,
         users: await getGroupUsers(user.groupName)
@@ -170,7 +168,7 @@ else
 res.sendFile(path.join(__dirname,'/public/login.html'))
 });
 app.get('/logout',(req,res)=>{
-  console.log("from logout")
+  const user=userLeave(checkSum);
   res.sendFile(path.join(__dirname,'/public/login.html'))
 })
 app.post('/register', (req,res)=>{

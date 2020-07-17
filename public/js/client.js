@@ -9,33 +9,27 @@ const loggedUser=document.getElementById("username");
 const chatBoardUser=document.getElementById("chatBoard");
 const activeUser=document.getElementById("activeUser");
 
-var checkSum=0;
 
-  var groupName=location.search.slice(1);
+  var groupName=location.search.slice(1).split("&")[1];
      const socket = io();
      socket.on("userConnected",({checkSum,username})=>{
-    console.log("from userconnected");
-    console.log(checkSum);
       if(username && !groupName){
         loginBtn.innerText="Logout";
         loggedUser.innerText=username;
-      
-      }
+     }
   
     //  checkUsername(username);
       buttons.forEach((button)=>{
         button.addEventListener('click',(e)=>{
           e.preventDefault();
-        location.href=`chatBoard.html?${button.innerText}`
-        console.log(location.search.slice(1).username)
+        location.href=`chatBoard.html?${checkSum}&${button.innerText}`
               });  })
 
         if (groupName){
-         // Join chatroom
+         // Join chatgroup
         socket.emit('joinGroup', { checkSum,username,groupName});
  
- 
-  // Get room and users
+ // Get group and users
   socket.on('groupUsers', ({ groupName, users }) => {
     displayGroupName(groupName);
     displayUsers(users);
@@ -46,7 +40,6 @@ var checkSum=0;
   
   // Message from server
   socket.on('message',(message) => {
-    console.log("how many times");
     displayMessage(message);
    // Scroll down
   chatMessages.scrollTop = chatMessages.scrollHeight;
